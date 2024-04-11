@@ -1,0 +1,64 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use App\Models\CouponClicks;
+use App\Models\CouponDownloads;
+use App\Models\CouponRedeemed;
+use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\DB;
+
+
+class Controller extends BaseController
+{
+    use AuthorizesRequests, ValidatesRequests;
+
+    function getTotalDownloads()
+    {
+        if (\Auth::user()->admin == 1) {
+            return CouponDownloads::sum('Downloads');
+        } else {
+            return CouponDownloads::leftJoin('coupons', 'coupons_download.coupon_id', '=', 'coupons.id')->leftJoin('retailers', 'coupons.retailer_id', '=', 'retailers.id')->where('retailers.created_by', \Auth::user()->id)->sum('Downloads');
+        }
+    }
+    function getTotalClicks()
+    {
+        if (\Auth::user()->admin == 1) {
+            return CouponClicks::sum('clicks');
+        } else {
+            return CouponClicks::leftJoin('coupons', 'coupons_clicks.coupon_id', '=', 'coupons.id')->leftJoin('retailers', 'coupons.retailer_id', '=', 'retailers.id')->where('retailers.created_by', \Auth::user()->id)->sum('clicks');
+        }
+    }
+    function getTotalRedemptions()
+    {
+        if (\Auth::user()->admin == 1) {
+            return CouponRedeemed::count();
+        } else {
+            return CouponRedeemed::leftJoin('coupons', 'coupon_redemption.coupon_id', '=', 'coupons.id')->leftJoin('retailers', 'coupons.retailer_id', '=', 'retailers.id')->where('retailers.created_by', \Auth::user()->id)->count();
+        }
+    }
+    function getSelectDBRawProducts(){
+        $str = 'products.*, 
+        (select min(product_variation.price) where product_variation.product_id = products.id) as min_price,
+        (select max(product_variation.price) where product_variation.product_id = products.id) as max_price, 
+        (select min(product_variation.sale_price) where product_variation.product_id = products.id) as min_sale_price,
+        (select max(product_variation.sale_price) where product_variation.product_id = products.id) as max_sale_price, 
+        (select max(product_variation.on_sale) where product_variation.product_id = products.id and product_variation.status = 1) as product_is_on_sale, 
+        (select id from product_favorites where product_favorites.product_variation_id=product_variation.id and product_favorites.user_id=" . $userid . " limit 0,1) as favorite, 
+        retailers.business_name,retailers.banner_image,retailers.business_address, retailers.city, retailers.state, retailers.phone_number, retailers.email,retailers.business_description,
+        retailers.longitude,retailers.latitude, retailers.from_mobile, retailers.from_mobile, categories.name as category_name';
+        return DB::raw($str);
+    }
+    function strright($str)
+    {
+        $strpos = strpos($str, "|");
+
+        if ($strpos === false) {
+            return $str;
+        } else {
+            return substr($str, $strpos + 1);
+        }
+    }
+}

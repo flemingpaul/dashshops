@@ -1,0 +1,271 @@
+body {
+
+    margin: 0;
+
+    font-size: .9rem;
+
+    font-weight: 400;
+
+    line-height: 1.6;
+
+    color: #212529;
+
+    text-align: left;
+
+    background-color: #f5f8fa;
+
+}
+
+.navbar-light {
+    background-color: #fff;
+}
+
+.navbar-laravel {
+
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .04);
+
+}
+
+.navbar-brand, .nav-link {
+
+    font-family: Raleway, sans-serif;
+
+}
+
+/*.card-body .nav-item .nav-link{*/
+/*    background-image: url(../images/analytics.png);*/
+/*    background-size: contain;*/
+/*}*/
+.nav-link {
+    list-style: none;
+    color: black;
+    text-decoration: none;
+     !important;
+    padding: 12px;
+}
+
+input {
+    border: 1px solid black;
+}
+
+.field-icon {
+    float: right;
+    margin-left: -20px;
+    margin-right: 10px;
+    margin-top: -25px;
+    position: relative;
+    z-index: 2;
+}
+
+.iconClass {
+    position: relative;
+}
+
+.iconClass span {
+    position: absolute;
+    top: 7px;
+    right: 0;
+    left: 23px;
+    display: block;
+}
+
+.progress {
+    width: 120px;
+    height: 120px;
+    background: none;
+    position: relative;
+}
+
+.progress::after {
+    content: "";
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 6px solid #eee;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.progress>span {
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    z-index: 1;
+}
+
+.progress .progress-left {
+    left: 0;
+}
+
+.progress .progress-bar {
+    width: 100%;
+    height: 100%;
+    background: none;
+    border-width: 6px;
+    border-style: solid;
+    position: absolute;
+    top: 0;
+}
+
+.progress .progress-left .progress-bar {
+    left: 100%;
+    border-top-right-radius: 80px;
+    border-bottom-right-radius: 80px;
+    border-left: 0;
+    -webkit-transform-origin: center left;
+    transform-origin: center left;
+}
+
+.progress .progress-right {
+    right: 0;
+}
+
+.progress .progress-right .progress-bar {
+    left: -100%;
+    border-top-left-radius: 80px;
+    border-bottom-left-radius: 80px;
+    border-right: 0;
+    -webkit-transform-origin: center right;
+    transform-origin: center right;
+}
+
+.progress .progress-value {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.analytics a:hover {
+    color: #FFFFFF;
+    background-image: url("../images/analyticbg.png");
+     !important;
+}
+
+.analytics.active {
+    color: #FFFFFF;
+    background-image: url("../images/analyticbg.png");
+     !important;
+}
+
+.analytics a:focus {
+    color: #FFFFFF;
+    background-image: url("../images/analyticbg.png");
+     !important;
+}
+
+.retailer a:hover {
+    color: #FFFFFF;
+    background-image: url("../images/retailers.png");
+     !important;
+}
+
+.retailer a:focus {
+    color: #FFFFFF;
+    background-image: url("../images/retailerbg.png");
+     !important;
+}
+
+.retailer a:active {
+    color: #FFFFFF;
+    background-image: url("../images/retailers.png");
+     !important;
+}
+
+.coupon a:hover {
+    color: #FFFFFF;
+    background-image: url("../images/usersbg.png");
+     !important;
+}
+
+.coupons a:hover {
+    color: #FFFFFF;
+    background-image: url("../images/coupons.png");
+     !important;
+    background-size: cover;
+}
+
+.add-retailer a:hover {
+    color: #FFFFFF;
+    background-image: url("../images/retailerbg.png");
+     !important;
+    background-size: cover;
+}
+
+.users a:hover {
+    color: #FFFFFF;
+    background-image: url("../images/usersbg.png");
+     !important;
+    background-size: cover;
+}
+
+ul.nav .analytics.active a {
+    color: #FFFFFF;
+    background-image: url("../images/analyticbg.png");
+     !important;
+    background-size: cover;
+}
+
+ul.nav .coupon.active a {
+    color: #FFFFFF;
+    background-image: url("../images/usersbg.png");
+     !important;
+    background-size: cover;
+}
+
+ul.nav .add-retailer.active a {
+    color: #FFFFFF;
+    background-image: url("../images/retailerbg.png");
+     !important;
+    background-size: cover;
+}
+
+ul.nav .coupons.active a {
+    color: #FFFFFF;
+    background-image: url("../images/coupons.png");
+     !important;
+    background-size: cover;
+}
+.avatar {
+    vertical-align: middle;
+    object-fit: cover contain;
+    border-radius: 50%;
+ }
+
+
+@media only screen and (max-width: 300px) {
+    .change input {
+        width: 100px;
+    }
+}
+
+ul.nav.nav-pills li.active a {
+    color: #FFFFFF;
+    background-image: url("../images/retailers.png");
+     !important;
+    background-size: cover;
+}
+
+ul.nav.nav-pills .users.active a {
+    color: #FFFFFF;
+    background-image: url("../images/usersbg.png");
+     !important;
+    background-size: cover;
+}
+
+@media only screen and (max-width: 400px) {
+    .card-header .retailer-text {
+        font-size: 10px;
+         !important;
+        color: #000000;
+    }
+}
+
+/*input::file-selector-button {*/
+/*    font-weight: bold;*/
+/*    background-color: blue;*/
+/*    padding: 0.5em;*/
+/*    border-radius: 3px;*/
+/*}*/
