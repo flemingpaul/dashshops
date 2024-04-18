@@ -631,6 +631,34 @@ class RetailerController extends Controller
         ], 200);
     }
 
+    public function getAllAvailableStates(Request $request)
+    {
+        $coupon_states = DB::table('coupons')
+            ->join('retailers', 'retailers.id', '=', 'coupons.retailer_id')
+            ->join('states', 'states.name', '=', 'retailers.state')
+            ->select("states.*")
+            ->where("coupons.approval_status", "=", "APPROVED")
+            ->where("retailers.approval_status", "=", "APPROVED")
+            ->where('coupons.end_date', '>', date('Y-m-d 00:00:01'))
+            ->groupBy("states.id")->get()->toArray();
+
+        $product_state = DB::table('product_variation')
+            ->join('products', 'products.id', '=', 'product_variation.product_id')
+            ->join('retailers', 'retailers.id', '=', 'products.store_id')
+            ->join('states','states.name','=','retailers.state')
+            ->select("states.*")
+            ->where("products.status", "=", 1)
+            ->where("product_variation.quantity", ">", 0)
+            ->where("retailers.approval_status", "=", "APPROVED")
+            ->groupBy("states.id")->get()->toArray();
+
+        $states = $this->uniqueArray(array_merge($product_state, $coupon_states),"id");
+        sort($states);
+        return response()->json([
+            "data" => $states
+        ], 200);
+    }
+
     public function getProducts($id, $type, $search = "")
     {
 
@@ -645,6 +673,10 @@ class RetailerController extends Controller
             $products = $products->where('products.status', '=', $type);
         if ($search != "")
             $products = $products->where('products.product_name', 'LIKE', '%' . $search . '%');
+
+        $products = $products->groupBy('products.id')
+            ->groupBy("products.id")
+            ->orderBy("products.product_name");
         $products = $products->get();
 
         return response()->json([

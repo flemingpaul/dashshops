@@ -51,6 +51,25 @@ class Controller extends BaseController
         retailers.longitude,retailers.latitude, retailers.from_mobile, retailers.from_mobile, categories.name as category_name';
         return DB::raw($str);
     }
+
+    function uniqueArray($array, $property)
+    {
+        $tempArray = array_unique(array_column($array, $property));
+        $onePropertyUniqueArrayOfObjects = array_values(array_intersect_key($array, $tempArray));
+        return $onePropertyUniqueArrayOfObjects;
+    }
+
+
+    function getSelectDBRawCart()
+    {
+        $str = 'cart.*,
+        products.product_name, products.id as product_id, products.image,product_variation.status,
+        product_variation.quantity as stock_value, product_variation.low_stock_value, product_variation.sale_price,product_variation.price,
+        product_variation.variant_types,product_variation.variant_type_values,product_variation.on_sale,
+        retailers.business_name,retailers.banner_image,retailers.business_address, retailers.city, retailers.state, retailers.phone_number, retailers.email,retailers.business_description,
+        retailers.longitude,retailers.latitude, retailers.from_mobile, retailers.from_mobile, categories.name as category_name';
+        return DB::raw($str);
+    }
     function strright($str)
     {
         $strpos = strpos($str, "|");

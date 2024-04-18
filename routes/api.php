@@ -135,7 +135,12 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::group(['prefix' => '/products', 'as' => 'products'], function () {
-        Route::post('/update', [ProductController::class, 'update'])->name('update-product');
+        Route::post('/update', [
+        ProductController::class, 'update'])->name('update-product');
+        Route::delete('/{id}', [ProductController::class, 'delete'])->name('delete-product');
+        Route::post('/addtocart', [ProductController::class, 'addtocart'])->name(
+        'addtocart-product');
+        Route::delete('/removefromcart/{id}', [ProductController::class, 'removeFromCart'])->name('removefromcart-product');
     });
 
     //State
@@ -159,9 +164,20 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::get('/categories', [CategoryController::class, 'index']);
 Route::get('/categories/{id}', [CategoryController::class, 'show']);
+Route::get('/categories/banner/{id}',[CategoryController::class, 'getCategoryBanner']);
 //Ads
 Route::get('/ads', [AdsController::class, 'getAllActive']);
 Route::post('/register-ad-click', [AdsController::class, 'recordClick']);
+
+
+//products
+Route::group(['prefix' => '/products', 'as' => 'products'], function () {
+    Route::get('/{id}', [ProductController::class, 'getProduct'])->name('get-product');
+    Route::get('/variants/{product_id}', [ProductController::class, 'getProductVariants'])->name('get-product-variants');
+    Route::get('/getrelevantproducts/{count}/{category?}/{search?}', [ProductController::class, 'getrelevantproducts']);
+    Route::get('/getrelevantproductsbylocation/{count}/{category?}/{city?}/{state?}/{search?}', [ProductController::class, 'getrelevantproducts2']);
+
+});
 
 
 //Retailers
@@ -177,6 +193,7 @@ Route::group(['prefix' => '/retailers', 'as' => 'retailers.'], function () {
     Route::post('/add', [RetailerController::class, 'storeAPI'])->name('create');
     Route::get('getcities/{island}', [RetailerController::class, 'getCitiesApi'])->name('getcities');
     Route::get('getislandfrcity/{city}', [RetailerController::class, 'getIslandFrCityApi'])->name('getislandfrcity');
+    Route::get('/getavailablestates',[RetailerController::class, 'getAllAvailableStates']);
 });
 //CouponClicks
 Route::get('/clicks', [CouponClicksController::class, 'getAll']);

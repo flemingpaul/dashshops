@@ -8,6 +8,7 @@ use App\Http\Controllers\FileUploadController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RetailerController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Models\Category;
 use App\Models\State;
@@ -33,32 +34,34 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/denial', [AuthController::class, 'denial'])->name('denial');
 
 
-//    Route::middleware(['approved'])->group(function () {
+    //    Route::middleware(['approved'])->group(function () {
 
-        Route::get('/dashboard/analytics', [AuthController::class, 'analytics'])->name('analytics');
-        Route::get('/dashboard/analytics-details', [AuthController::class, 'analyticsDetail'])->name('analytics-detail');
-        //Users
-       
-        Route::post('/users/{id}', [UserController::class, 'update'])->name('update-user');
-        Route::get('/edit-user', [UserController::class, 'showEditUser'])->name('edit-user');
-        Route::get('/members', [UserController::class, 'showMembers'])->name('members');
-        Route::post('/change-password', [AuthController::class, 'changePassword'])->name('change-password');
+    Route::get('/dashboard/analytics', [AuthController::class, 'analytics'])->name('analytics');
+    Route::get('/dashboard/analytics-details', [AuthController::class, 'analyticsDetail'])->name('analytics-detail');
+    //Users
 
-
-        Route::get('/profile/', [AuthController::class, 'fillProfile'])->name('profile');
-        Route::put('/update-profile/retailer/{id}', [ProfileController::class, 'update'])->name('profile-update');
-//Route::get('dashboard/analytics', [AuthController::class, 'analytics'])->name('analytics');
-
-        Route::get('/add-coupon', [CouponController::class, 'showAddCoupon'])->name('add-coupon');
-        Route::post('/coupons/add', [CouponController::class, 'store'])->name('coupon.create');
-        Route::get('/coupons', [CouponController::class, 'showAll'])->name('coupons');
-        Route::get('/coupons/{id}', [CouponController::class, 'destroy'])->name('admin.coupons.delete');
+    Route::post('/users/{id}', [UserController::class, 'update'])->name('update-user');
+    Route::get('/edit-user', [UserController::class, 'showEditUser'])->name('edit-user');
+    Route::get('/members', [UserController::class, 'showMembers'])->name('members');
+    Route::post('/change-password', [AuthController::class, 'changePassword'])->name('change-password');
 
 
-//Retailers
-        Route::get('/retailers', [RetailerController::class, 'view'])->name('retailers');
-        Route::get('/retailer/{id}', [RetailerController::class, 'showSingleRetailer'])->name('retailer');
-       
+    Route::get('/profile/', [AuthController::class, 'fillProfile'])->name('profile');
+    Route::put('/update-profile/retailer/{id}', [ProfileController::class, 'update'])->name('profile-update');
+    //Route::get('dashboard/analytics', [AuthController::class, 'analytics'])->name('analytics');
+
+    Route::get('/add-coupon', [CouponController::class, 'showAddCoupon'])->name('add-coupon');
+    Route::post('/coupons/add', [CouponController::class, 'store'])->name('coupon.create');
+    Route::get('/coupons', [CouponController::class, 'showAll'])->name('coupons');
+    Route::get('/coupons/{id}', [CouponController::class, 'destroy'])->name('admin.coupons.delete');
+    Route::get('/products', [ProductController::class, 'showAll'])->name('products');
+
+
+
+    //Retailers
+    Route::get('/retailers', [RetailerController::class, 'view'])->name('retailers');
+    Route::get('/retailer/{id}', [RetailerController::class, 'showSingleRetailer'])->name('retailer');
+
     Route::put('/retailer/{id}/update-logo', [RetailerController::class, 'updateLogo'])->name('update-logo');
 
     Route::get('/delete-account', function () {
@@ -67,17 +70,13 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/delete-account', [AuthController::class, 'deleteAccount'])->name('delete-account');
 
 
-//    });
+    //    });
     //Ads
 
     Route::middleware(['admin'])->group(function () {
-        
+
         Route::get('/retailers/add', [RetailerController::class, 'showAddRetailer'])->name('add-retailers');
         Route::post('/retailers/', [RetailerController::class, 'store'])->name('add-retailer');
-
-       
-
-
     });
     Route::middleware(['super_admin'])->group(function () {
         Route::get('/users', [UserController::class, 'index'])->name('admin.users.index');
@@ -106,10 +105,6 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/categories/add', [CategoryController::class, 'store'])->name('add-category');
         Route::put('/categories/edit/{id}', [CategoryController::class, 'update'])->name('edit-category');
         Route::delete('/categories/{id}', [CategoryController::class, 'destroyWeb'])->name('delete-category');
-
-       
-
-
     });
 });
 Route::get('login', [AuthController::class, 'index'])->name('login');

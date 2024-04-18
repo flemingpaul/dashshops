@@ -31,6 +31,22 @@ class CategoryController extends Controller
             "data" => $category
         ], 201);
     }
+    function getCategoryBanner($id){
+        if(Category::where('id',$id)->exists()){
+            $category = Category::find($id);
+            return response()->json([
+                "status"=>true,
+                "message" => "Image Retrieved",
+                "data" => $category->banner_image
+            ], 200);
+        }else{
+            return response()->json([
+                "status" => false,
+                "message" => "Image Retrieved",
+                "data" => "Category not found"
+            ], 404);
+        }
+    }
     public function store(Request $request)
     {
         $category = new Category;

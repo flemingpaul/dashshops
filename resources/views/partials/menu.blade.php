@@ -13,6 +13,9 @@
     <li class="nav-item coupons @if($active=='coupons') active @endif" style="background-image: url({{asset('images/view.png')}}); background-size: cover">
         <a class="nav-link" href="{{ route('coupons') }}">View Coupons</a>
     </li>
+    <li class="nav-item coupons @if($active=='products') active @endif" style="background-image: url({{asset('images/retailer.png')}}); background-size: cover">
+        <a class="nav-link" href="{{ route('products') }}">View Products</a>
+    </li>
     @if(auth()->user()->admin)
     <li class="nav-item retailer @if($active=='retailers') active @endif" style="background-image: url({{asset('images/users.png')}}); background-size: cover">
         <a class="nav-link" href="{{ route('retailers') }}">View Retailers</a>
