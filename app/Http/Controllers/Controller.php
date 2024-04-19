@@ -80,4 +80,24 @@ class Controller extends BaseController
             return substr($str, $strpos + 1);
         }
     }
+    function getProductDetail($productVariationIds)
+    {
+        $products = DB::table('product_variation')
+        ->join('products', 'products.id', '=', 'product_variation.product_id')
+        ->join('retailers', 'retailers.id', '=', 'products.store_id')
+        ->join('categories', 'categories.id', '=', 'products.category_id')
+        ->select($this->getSelectDBRawProducts())
+            ->where('products.status', '=', 1)
+            ->where('product_variation.status', '=', 1);
+
+        $products = $products->whereNested(function ($q) use ($productVariationIds) {
+            foreach ($productVariationIds as $id) {
+                $q = $q->orWhere("cart.product_variation_id", $id);
+            }
+        });
+        $products = $products->orderBy("products.product_name");
+        $products = $products->get();
+
+        return $products;
+    }
 }
