@@ -17,6 +17,7 @@ use App\Http\Controllers\AdsController;
 use App\Http\Controllers\AppSettingsController;
 use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CartController;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -136,12 +137,21 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::group(['prefix' => '/products', 'as' => 'products'], function () {
         Route::post('/update', [
-        ProductController::class, 'update'])->name('update-product');
+            ProductController::class, 'update'
+        ])->name('update-product');
         Route::delete('/{id}', [ProductController::class, 'delete'])->name('delete-product');
         Route::post('/addtocart', [ProductController::class, 'addtocart'])->name(
-        'addtocart-product');
+            'addtocart-product'
+        );
         Route::delete('/removefromcart/{id}', [ProductController::class, 'removeFromCart'])->name('removefromcart-product');
     });
+    //carts
+    Route::post('/carts', [CartController::class, 'add']);
+    Route::post('/carts/sync', [CartController::class, 'syncFromApp']);
+    Route::delete('/carts/{id}', [ProductController::class, 'delete']);
+    Route::put('/carts/{id}', [ProductController::class, 'update']);
+    Route::get('/carts', [ProductController::class, 'getUserCart']);
+
 
     //State
 
@@ -162,9 +172,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/app-settings/{user_id}', [AppSettingsController::class, 'saveSettings']);
 });
 
+Route::get('/carts/products-from-vids', [ProductController::class, 'getProductDetails']);
+
 Route::get('/categories', [CategoryController::class, 'index']);
 Route::get('/categories/{id}', [CategoryController::class, 'show']);
-Route::get('/categories/banner/{id}',[CategoryController::class, 'getCategoryBanner']);
+Route::get('/categories/banner/{id}', [CategoryController::class, 'getCategoryBanner']);
 //Ads
 Route::get('/ads', [AdsController::class, 'getAllActive']);
 Route::post('/register-ad-click', [AdsController::class, 'recordClick']);
@@ -176,7 +188,6 @@ Route::group(['prefix' => '/products', 'as' => 'products'], function () {
     Route::get('/variants/{product_id}', [ProductController::class, 'getProductVariants'])->name('get-product-variants');
     Route::get('/getrelevantproducts/{count}/{category?}/{search?}', [ProductController::class, 'getrelevantproducts']);
     Route::get('/getrelevantproductsbylocation/{count}/{category?}/{city?}/{state?}/{search?}', [ProductController::class, 'getrelevantproducts2']);
-
 });
 
 
@@ -193,7 +204,7 @@ Route::group(['prefix' => '/retailers', 'as' => 'retailers.'], function () {
     Route::post('/add', [RetailerController::class, 'storeAPI'])->name('create');
     Route::get('getcities/{island}', [RetailerController::class, 'getCitiesApi'])->name('getcities');
     Route::get('getislandfrcity/{city}', [RetailerController::class, 'getIslandFrCityApi'])->name('getislandfrcity');
-    Route::get('/getavailablestates',[RetailerController::class, 'getAllAvailableStates']);
+    Route::get('/getavailablestates', [RetailerController::class, 'getAllAvailableStates']);
 });
 //CouponClicks
 Route::get('/clicks', [CouponClicksController::class, 'getAll']);

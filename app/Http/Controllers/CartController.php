@@ -15,14 +15,14 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 
 
-class ProductController extends Controller
+class CartController extends Controller
 {
 
     function delete(Request $request, $id)
     {
         $user = $request->user();
-        if (Cart::where("id", $id)->exists()) {
-            $cart = Cart::find($id);
+        if (Cart::where(["product_variation_id"=> $id, "user_id"=>$user->id])->exists()) {
+            $cart = Cart::where(["product_variation_id" => $id, "user_id" => $user->id])->first();
             $cart->delete();
             return response()->json(
                 [
@@ -41,6 +41,71 @@ class ProductController extends Controller
             );
         }
     }
+
+    function syncFromApp(Request $request){
+        $user = $request->user();
+        $products = json_decode($request->products_variant_ids, true);
+        foreach ($products as $product) {
+            if (Cart::where(["product_variation_id" => $product["product_variation_id"], "user_id" => $user->id])->exists()) {
+                $cart = Cart::where(["product_variation_id" => $product, "user_id" => $user->id])->first();
+                $cart->quantity =  (int)$product["quantity"];
+                $cart->save();
+            } else {
+                
+                Cart::create([
+                    "user_id" => $user->id,
+                    "product_variation_id" => $product["product_variation_id"],
+                    "quantity" => (int)$product["quantity"],
+                ]);
+            }
+        }
+        return response()->json(
+            [
+                'status' => true,
+                'message' => "Items Synced to Cart Successfully"
+            ],
+            200
+        );
+    }
+
+    function getProductDetails(Request $request){
+        $products_variant_ids = json_decode($request->products_variant_ids, true);
+        $products = $this->getProductDetail($products_variant_ids);
+        return response()->json(
+            [
+                'status' => true,
+                "data"=>$products
+            ],
+            200
+        );
+    }
+
+
+    function update(Request $request, $id)
+    {
+        $user = $request->user();
+        if (Cart::where(["product_variation_id" => $id, "user_id" => $user->id])->exists()) {
+            $cart = Cart::where(["product_variation_id" => $id, "user_id" => $user->id])->first();
+            $cart->quantity = $request->quantity;
+            $cart->update();
+            return response()->json(
+                [
+                    'status' => true,
+                    'message' => "Cart Item Updated"
+                ],
+                200
+            );
+        } else {
+            return response()->json(
+                [
+                    'status' => true,
+                    'message' => "Cart item not found"
+                ],
+                404
+            );
+        }
+    }
+
     function getUserCart(Request $request)
     {
         $user = $request->user();
@@ -68,16 +133,17 @@ class ProductController extends Controller
     {
         $user = $request->user();
         $products = json_decode($request->products_variant_ids, true);
+
         foreach ($products as $product) {
-            if (Cart::where(["product_variation_id" => $product["id"], "user_id" => $user->id])->exists()) {
+            if (Cart::where(["product_variation_id" => $product["product_variation_id"], "user_id" => $user->id])->exists()) {
                 $cart = Cart::where(["product_variation_id" => $product, "user_id" => $user->id])->first();
                 $cart->quantity = $cart->quantity + (int)$product["quantity"];
                 $cart->save();
             } else {
                 Cart::create([
                     "user_id" => $user->id,
-                    "product_variation_id" => $user->id,
-                    "quantity" => $user->id,
+                    "product_variation_id" => $product["product_variation_id"],
+                    "quantity" => (int)$product["quantity"],
                 ]);
             }
         }
