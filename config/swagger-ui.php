@@ -14,7 +14,13 @@ return [
              * The versions of the swagger file. The key is the version name and the value is the path to the file.
              */
             'versions' => [
-                'v1.0.0' => resource_path('swagger/docs.json'),
+                'Authentication' => resource_path('swagger/authentication.json'),
+                'Products' => resource_path('swagger/products.json'),
+                'Notifications' => resource_path('swagger/notifications.json'),
+                'Ratings' => resource_path('swagger/ratings.json'),
+                'Categories' => resource_path('swagger/categories.json'),
+                'Coupon' => resource_path('swagger/coupon.json'),
+                'Users' => resource_path('swagger/users.json'),
             ],
 
             /*

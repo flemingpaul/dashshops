@@ -1,0 +1,2087 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Dashshops Webportal API",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "/api",
+            "description": "Base URL"
+        }
+    ],
+    "paths": {
+        "/coupons": {
+            "get": {
+                "summary": "Get all coupons",
+                "tags": [
+                    "Coupon"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Coupon"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Successful"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/coupons/getall/{count}/{page}/{search}": {
+            "get": {
+                "summary": "Get all coupons",
+                "tags": [
+                    "Coupon"
+                ],
+                "parameters": [
+                    {
+                        "name": "count",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number",
+                            "example": 10
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "path",
+                        "schema": {
+                            "type": "string",
+                            "example": "search"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Coupon"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/coupons/add": {
+            "post": {
+                "summary": "Add or update coupon",
+                "tags": [
+                    "Coupon"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "number",
+                                        "example": 1
+                                    },
+                                    "image": {
+                                        "type": "file"
+                                    },
+                                    "has_new_image": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "category_id": {
+                                        "type": "number"
+                                    },
+                                    "download_limit": {
+                                        "type": "number"
+                                    },
+                                    "retailer_id": {
+                                        "type": "number"
+                                    },
+                                    "retail_price": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "discount_percentage": {
+                                        "type": "string"
+                                    },
+                                    "discount_now_price": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "discount_description": {
+                                        "type": "string"
+                                    },
+                                    "start_date": {
+                                        "type": "string"
+                                    },
+                                    "end_date": {
+                                        "type": "string"
+                                    },
+                                    "qr_code": {
+                                        "type": "string"
+                                    },
+                                    "discount_code": {
+                                        "type": "string"
+                                    },
+                                    "offer_type": {
+                                        "type": "string"
+                                    },
+                                    "created_by": {
+                                        "type": "number"
+                                    },
+                                    "modified_by": {
+                                        "type": "number"
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "price",
+                                    "category_id",
+                                    "download_limit",
+                                    "retailer_id",
+                                    "retail_price",
+                                    "discount_percentage",
+                                    "discount_now_price",
+                                    "start_date",
+                                    "end_date",
+                                    "discount_code",
+                                    "offer_type",
+                                    "created_by",
+                                    "modified_by"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "Status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Coupon created"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Coupon"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/coupons/{id}": {
+            "get": {
+                "summary": "Get coupon by id",
+                "tags": [
+                    "Coupon"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Coupon Fetched Successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Coupon"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Coupon not found"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update coupon",
+                "tags": [
+                    "Coupon"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number",
+                            "example": 1
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "image": {
+                                        "type": "file"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "category_id": {
+                                        "type": "number"
+                                    },
+                                    "download_limit": {
+                                        "type": "number"
+                                    },
+                                    "retailer_id": {
+                                        "type": "number"
+                                    },
+                                    "retail_price": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "discount_percentage": {
+                                        "type": "string"
+                                    },
+                                    "discount_now_price": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "discount_description": {
+                                        "type": "string"
+                                    },
+                                    "start_date": {
+                                        "type": "string"
+                                    },
+                                    "end_date": {
+                                        "type": "string"
+                                    },
+                                    "qr_code": {
+                                        "type": "string"
+                                    },
+                                    "discount_code": {
+                                        "type": "string"
+                                    },
+                                    "offer_type": {
+                                        "type": "string"
+                                    },
+                                    "created_by": {
+                                        "type": "number"
+                                    },
+                                    "modified_by": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Coupon updated"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Coupon"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Coupon not found"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete a coupon",
+                "tags": [
+                    "Coupon"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number",
+                            "example": 1
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Coupon deleted"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Coupon not found"
+                    }
+                }
+            }
+        },
+        "/coupons/get-offer-type/{type}/{count}/{category}/{search}": {
+            "get": {
+                "summary": "Get coupons by offer type",
+                "tags": [
+                    "Coupon"
+                ],
+                "parameters": [
+                    {
+                        "name": "type",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "discount"
+                        }
+                    },
+                    {
+                        "name": "count",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number",
+                            "example": 10
+                        }
+                    },
+                    {
+                        "name": "category",
+                        "in": "path",
+                        "schema": {
+                            "type": "number",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "path",
+                        "schema": {
+                            "type": "string",
+                            "example": "search"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Coupon"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/coupons/get-offer-type-by-location/{type}/{count}/{category}/{city}/{state}/{search}": {
+            "get": {
+                "summary": "Get coupons by offer type and location",
+                "tags": [
+                    "Coupon"
+                ],
+                "parameters": [
+                    {
+                        "name": "type",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "discount"
+                        }
+                    },
+                    {
+                        "name": "count",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number",
+                            "example": 10
+                        }
+                    },
+                    {
+                        "name": "category",
+                        "in": "path",
+                        "schema": {
+                            "type": "number",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "city",
+                        "in": "path",
+                        "schema": {
+                            "type": "string",
+                            "example": "city"
+                        }
+                    },
+                    {
+                        "name": "state",
+                        "in": "path",
+                        "schema": {
+                            "type": "string",
+                            "example": "state"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "path",
+                        "schema": {
+                            "type": "string",
+                            "example": "search"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Coupon"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/coupons/get-offer-type-by-location-islands/{type}/{count}/{category}/{island}/{city}/{state}/{search}": {
+            "get": {
+                "summary": "Get coupons by offer type and location",
+                "tags": [
+                    "Coupon"
+                ],
+                "parameters": [
+                    {
+                        "name": "type",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "discount"
+                        }
+                    },
+                    {
+                        "name": "count",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number",
+                            "example": 10
+                        }
+                    },
+                    {
+                        "name": "category",
+                        "in": "path",
+                        "schema": {
+                            "type": "number",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "island",
+                        "in": "path",
+                        "schema": {
+                            "type": "string",
+                            "example": "island"
+                        }
+                    },
+                    {
+                        "name": "city",
+                        "in": "path",
+                        "schema": {
+                            "type": "string",
+                            "example": "city"
+                        }
+                    },
+                    {
+                        "name": "state",
+                        "in": "path",
+                        "schema": {
+                            "type": "string",
+                            "example": "state"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "path",
+                        "schema": {
+                            "type": "string",
+                            "example": "search"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Coupon"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/coupons/states/{state}/{city}/{category}/{search}": {
+            "get": {
+                "summary": "Get coupons by state",
+                "tags": [
+                    "Coupon"
+                ],
+                "parameters": [
+                    {
+                        "name": "state",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "state"
+                        }
+                    },
+                    {
+                        "name": "city",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "city"
+                        }
+                    },
+                    {
+                        "name": "category",
+                        "in": "path",
+                        "schema": {
+                            "type": "number",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "path",
+                        "schema": {
+                            "type": "string",
+                            "example": "search"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Coupons Retrieved"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Coupon"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/coupons/states-island/{island}/{state}/{city}/{category}/{search}": {
+            "get": {
+                "summary": "Get coupons by state island",
+                "tags": [
+                    "Coupon"
+                ],
+                "parameters": [
+                    {
+                        "name": "island",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "island"
+                        }
+                    },
+                    {
+                        "name": "state",
+                        "in": "path",
+                        "schema": {
+                            "type": "string",
+                            "example": "state"
+                        }
+                    },
+                    {
+                        "name": "city",
+                        "in": "path",
+                        "schema": {
+                            "type": "string",
+                            "example": "city"
+                        }
+                    },
+                    {
+                        "name": "category",
+                        "in": "path",
+                        "schema": {
+                            "type": "number",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "path",
+                        "schema": {
+                            "type": "string",
+                            "example": "search"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Coupons Retrieved"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Coupon"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/coupons/zip-code/{zip_code}": {
+            "get": {
+                "summary": "Get coupons by zip code",
+                "tags": [
+                    "Coupon"
+                ],
+                "parameters": [
+                    {
+                        "name": "zip_code",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "zip_code"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Coupons Retrieved"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Coupon"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/coupons/all-approved": {
+            "get": {
+                "summary": "Get all approved coupons",
+                "tags": [
+                    "Coupon"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Successful"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Coupon"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/coupons/by-category/{id}/{type}/{count}/{page}/{search}": {
+            "get": {
+                "summary": "Get coupons by category",
+                "tags": [
+                    "Coupon"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "type",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "discount"
+                        }
+                    },
+                    {
+                        "name": "count",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number",
+                            "example": 10
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "path",
+                        "schema": {
+                            "type": "string",
+                            "example": "search"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Coupon"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/clicks/add": {
+            "post": {
+                "summary": "Add click",
+                "tags": [
+                    "Click"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "coupon_id": {
+                                        "type": "number"
+                                    },
+                                    "clicks": {
+                                        "type": "number"
+                                    },
+                                    "city": {
+                                        "type": "string"
+                                    },
+                                    "state": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Click Added"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Click"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/clicks": {
+            "get": {
+                "summary": "Get all clicks",
+                "tags": [
+                    "Click"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Click"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Fetch Successful"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/clicks/retailer/{id}": {
+            "get": {
+                "summary": "Get clicks by retailer",
+                "tags": [
+                    "Click"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number",
+                            "example": 1
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/clicks/{id}": {
+            "get": {
+                "summary": "Get click by id",
+                "tags": [
+                    "Click"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Click"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update clicks",
+                "tags": [
+                    "Click"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number",
+                            "example": 1
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "clicks": {
+                                        "type": "number",
+                                        "example": 10
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "404": {
+                        "description": "Click not found"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete a click",
+                "tags": [
+                    "Click"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number",
+                            "example": 1
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Click Record Deleted"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Click Record not found"
+                    }
+                }
+            }
+        },
+        "/redeems": {
+            "get": {
+                "summary": "Get all redeems",
+                "tags": [
+                    "Redeem"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CouponRedeemed"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Fetch Successful"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/redeems/retailer/{id}": {
+            "get": {
+                "summary": "Get redeems by retailer",
+                "tags": [
+                    "Redeem"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number",
+                            "example": 1
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CouponRedeemed"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/redeems/download/{id}": {
+            "get": {
+                "summary": "Find by downlaod",
+                "tags": [
+                    "Redeem"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number",
+                            "example": 1
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CouponRedeemed"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/redeems/add": {
+            "post": {
+                "summary": "Add redeem",
+                "tags": [
+                    "Redeem"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "coupon_id": {
+                                        "type": "number"
+                                    },
+                                    "user_id": {
+                                        "type": "number"
+                                    },
+                                    "coupon_download_id": {
+                                        "type": "number"
+                                    },
+                                    "redemption_code": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Coupon Redemption Successful"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CouponRedeemed"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/redeems/{id}": {
+            "get": {
+                "summary": "Get redeem by id",
+                "tags": [
+                    "Redeem"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number",
+                            "example": 1
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CouponRedeemed"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update redeem",
+                "tags": [
+                    "Redeem"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number",
+                            "example": 1
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "coupon_id": {
+                                        "type": "number"
+                                    },
+                                    "user_id": {
+                                        "type": "number"
+                                    },
+                                    "coupon_download_id": {
+                                        "type": "number"
+                                    },
+                                    "redemption_code": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Coupon Redemption Updated"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CouponRedeemed"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Redeem not found"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete a redeem",
+                "tags": [
+                    "Redeem"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number",
+                            "example": 1
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Coupon Redemption Record Deleted"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Coupon Redemption Record not found"
+                    }
+                }
+            }
+        },
+        "/downloads/add": {
+            "post": {
+                "summary": "Add coupon download",
+                "tags": [
+                    "Download"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "coupon_id": {
+                                        "type": "number"
+                                    },
+                                    "downloads": {
+                                        "type": "number"
+                                    },
+                                    "coupon_code": {
+                                        "type": "string"
+                                    },
+                                    "user_id": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Coupon Download Added"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CouponDownload"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/downloads": {
+            "get": {
+                "summary": "Get all coupon downloads",
+                "tags": [
+                    "Download"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CouponDownload"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Fetch Successful"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/downloads/user/{id}": {
+            "get": {
+                "summary": "Get coupon downloads by user",
+                "tags": [
+                    "Download"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number",
+                            "example": 1
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Fetch Successful"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CouponDownload"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/downloads/retailer/{id}": {
+            "get": {
+                "summary": "Get coupon downloads by retailer",
+                "tags": [
+                    "Download"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number",
+                            "example": 1
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CouponDownload"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/downloads/user/{qr_code}/{user_id}": {
+            "get": {
+                "summary": "Get coupon downloads by user",
+                "tags": [
+                    "Download"
+                ],
+                "parameters": [
+                    {
+                        "name": "qr_code",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "123456"
+                        }
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number",
+                            "example": 1
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CouponDownload"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Fetch Successful"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/downloads/{id}": {
+            "get": {
+                "summary": "Get coupon download by id",
+                "tags": [
+                    "Download"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CouponDownload"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Coupon Download Record not found"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update coupon download",
+                "tags": [
+                    "Download"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number",
+                            "example": 1
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "downloads": {
+                                        "type": "number",
+                                        "example": 10
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Update Successful"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CouponDownload"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Coupon Download Record not found"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete a coupon download",
+                "tags": [
+                    "Download"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number",
+                            "example": 1
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Coupon Download Record Deleted"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Coupon Download Record not found"
+                    }
+                }
+
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "BearerAuth": {
+                "type": "http",
+                "scheme": "bearer"
+            }
+        },
+        "schemas": {
+            "Coupon": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number",
+                        "example": 1
+                    },
+                    "image": {
+                        "type": "file"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "price": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "category_id": {
+                        "type": "number"
+                    },
+                    "download_limit": {
+                        "type": "number"
+                    },
+                    "retailer_id": {
+                        "type": "number"
+                    },
+                    "retail_price": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "discount_now_price": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "discount_percentage": {
+                        "type": "string"
+                    },
+                    "start_date": {
+                        "type": "string"
+                    },
+                    "end_date": {
+                        "type": "string"
+                    },
+                    "qr_code": {
+                        "type": "string"
+                    },
+                    "discount_description": {
+                        "type": "string"
+                    },
+                    "discount_code": {
+                        "type": "string"
+                    },
+                    "offer_type": {
+                        "type": "string"
+                    },
+                    "approval_status": {
+                        "type": "string",
+                        "example": "NEW"
+                    },
+                    "created_by": {
+                        "type": "number"
+                    },
+                    "modified_by": {
+                        "type": "number"
+                    },
+                    "created_at": {
+                        "type": "string"
+                    },
+                    "updated_at": {
+                        "type": "string"
+                    }
+                }
+            },
+            "CouponRedeemed": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number",
+                        "example": 1
+                    },
+                    "coupon_id": {
+                        "type": "number"
+                    },
+                    "coupon_download_id": {
+                        "type": "number"
+                    },
+                    "redemption_code": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": "string"
+                    },
+                    "updated_at": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Click": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number",
+                        "example": 1
+                    },
+                    "coupon_id": {
+                        "type": "number"
+                    },
+                    "clicks": {
+                        "type": "number"
+                    },
+                    "city": {
+                        "type": "string"
+                    },
+                    "state": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": "string"
+                    },
+                    "updated_at": {
+                        "type": "string"
+                    }
+                }
+            },
+            "CouponDownload": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number",
+                        "example": 1
+                    },
+                    "coupon_id": {
+                        "type": "number"
+                    },
+                    "downloads": {
+                        "type": "number"
+                    },
+                    "coupon_code": {
+                        "type": "string"
+                    },
+                    "user_id": {
+                        "type": "number"
+                    },
+                    "created_at": {
+                        "type": "string"
+                    },
+                    "updated_at": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}
