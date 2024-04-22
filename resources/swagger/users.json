@@ -1,0 +1,424 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Dashshops Webportal API",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "/api",
+            "description": "Base URL"
+        }
+    ],
+    "paths": {
+        "/user/users": {
+            "get": {
+                "summary": "Get all users",
+                "tags": [
+                    "User"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/User"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user/user": {
+            "get": {
+                "summary": "Get current user",
+                "tags": [
+                    "User"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Fetch Successful"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/User"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user/user/add": {
+            "post": {
+                "summary": "Add a new user",
+                "tags": [
+                    "User"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "business_name": {
+                                        "type": "string",
+                                        "example": "Example Corp"
+                                    },
+                                    "business_address": {
+                                        "type": "string",
+                                        "example": "123, Example Street, Example City"
+                                    },
+                                    "firstname": {
+                                        "type": "string",
+                                        "example": "John"
+                                    },
+                                    "lastname": {
+                                        "type": "string",
+                                        "example": "Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "john@doe.com"
+                                    },
+                                    "phone_number": {
+                                        "type": "string",
+                                        "example": "+2348010203040"
+                                    },
+                                    "city": {
+                                        "type": "string",
+                                        "example": "Example City"
+                                    },
+                                    "state": {
+                                        "type": "string",
+                                        "example": "Example State"
+                                    },
+                                    "zip_code": {
+                                        "type": "string",
+                                        "example": "12345"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password"
+                                    },
+                                    "user_type": {
+                                        "type": "string",
+                                        "example": "Consumer"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User created successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/User"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user/{id}": {
+            "put": {
+                "summary": "Update a user",
+                "tags": [
+                    "User"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "business_name": {
+                                        "type": "string",
+                                        "example": "Example Corp"
+                                    },
+                                    "business_address": {
+                                        "type": "string",
+                                        "example": "123, Example Street, Example City"
+                                    },
+                                    "firstname": {
+                                        "type": "string",
+                                        "example": "John"
+                                    },
+                                    "lastname": {
+                                        "type": "string",
+                                        "example": "Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "john@doe.com"
+                                    },
+                                    "phone_number": {
+                                        "type": "string",
+                                        "example": "+2348010203040"
+                                    },
+                                    "city": {
+                                        "type": "string",
+                                        "example": "Example City"
+                                    },
+                                    "state": {
+                                        "type": "string",
+                                        "example": "Example State"
+                                    },
+                                    "zip_code": {
+                                        "type": "string",
+                                        "example": "12345"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password"
+                                    },
+                                    "user_type": {
+                                        "type": "string",
+                                        "example": "Consumer"
+                                    },
+                                    "admin": {
+                                        "type": "number",
+                                        "example": 0
+                                    },
+                                    "user_status": {
+                                        "type": "boolean",
+                                        "example": false
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User updated"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/User"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }
+                }
+            }
+        },
+        "/user/user/{id}": {
+            "delete": {
+                "summary": "Delete a user",
+                "tags": [
+                    "User"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "ACcount deleted successfully"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "Account does not exist"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "BearerAuth": {
+                "type": "http",
+                "scheme": "bearer"
+            }
+        },
+        "schemas": {
+            "User": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number",
+                        "example": 1
+                    },
+                    "business_name": {
+                        "type": "string",
+                        "example": "Example Corp"
+                    },
+                    "business_address": {
+                        "type": "string",
+                        "example": "123, Example Street, Example City"
+                    },
+                    "firstname": {
+                        "type": "string",
+                        "example": "John"
+                    },
+                    "lastname": {
+                        "type": "string",
+                        "example": "Doe"
+                    },
+                    "photo": {
+                        "type": "string",
+                        "example": "photo.jpg"
+                    },
+                    "city": {
+                        "type": "string",
+                        "example": "Example City"
+                    },
+                    "state": {
+                        "type": "string",
+                        "example": "Example State"
+                    },
+                    "zip_code": {
+                        "type": "string",
+                        "example": "12345"
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "example@example.com"
+                    },
+                    "phone_number": {
+                        "type": "string",
+                        "example": "+2348010203040"
+                    },
+                    "user_type": {
+                        "type": "string",
+                        "example": "Consumer"
+                    },
+                    "user_status": {
+                        "type": "number",
+                        "example": 0
+                    },
+                    "email_verified_at": {
+                        "type": "string",
+                        "example": "2024-04-19T10:24:54.000000Z"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "example": "2024-04-19T10:24:54.000000Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "example": "2024-04-19T10:24:54.000000Z"
+                    },
+                    "admin": {
+                        "type": "number",
+                        "example": 0
+                    },
+                    "is_vip": {
+                        "type": "number",
+                        "example": 0
+                    },
+                    "approved_at": {
+                        "type": "string",
+                        "example": "2024-04-19T10:24:54.000000Z"
+                    },
+                    "retailer_id": {
+                        "type": "number",
+                        "example": 1
+                    }
+                }
+            }
+        }
+    }
+}

@@ -15,12 +15,13 @@ return [
              */
             'versions' => [
                 'Authentication' => resource_path('swagger/authentication.json'),
+                'Users' => resource_path('swagger/users.json'),
                 'Products' => resource_path('swagger/products.json'),
                 'Notifications' => resource_path('swagger/notifications.json'),
                 'Ratings' => resource_path('swagger/ratings.json'),
                 'Categories' => resource_path('swagger/categories.json'),
                 'Coupon' => resource_path('swagger/coupon.json'),
-                'Users' => resource_path('swagger/users.json'),
+                'Favorites' => resource_path('swagger/favorites.json'),
             ],
 
             /*
