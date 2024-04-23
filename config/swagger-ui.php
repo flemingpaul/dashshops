@@ -16,12 +16,17 @@ return [
             'versions' => [
                 'Authentication' => resource_path('swagger/authentication.json'),
                 'Users' => resource_path('swagger/users.json'),
+                'Retailers' => resource_path('swagger/retailers.json'),
                 'Products' => resource_path('swagger/products.json'),
                 'Notifications' => resource_path('swagger/notifications.json'),
                 'Ratings' => resource_path('swagger/ratings.json'),
                 'Categories' => resource_path('swagger/categories.json'),
                 'Coupon' => resource_path('swagger/coupon.json'),
                 'Favorites' => resource_path('swagger/favorites.json'),
+                'States' => resource_path('swagger/states.json'),
+                'Vips' => resource_path('swagger/vips.json'),
+                'AppSettings' => resource_path('swagger/appsettings.json'),
+                'Ads' => resource_path('swagger/ads.json'),
             ],
 
             /*

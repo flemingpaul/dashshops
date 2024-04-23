@@ -1,0 +1,339 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Dashshops Webportal API",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "/api",
+            "description": "Base URL"
+        }
+    ],
+    "paths": {
+        "/vips": {
+            "get": {
+                "summary": "Get all VIPs",
+                "tags": [
+                    "VIP"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Vip Fetched Successfully"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Vip"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/vips/{id}": {
+            "get": {
+                "summary": "Get VIP by ID",
+                "tags": [
+                    "VIP"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Vip Fetched Successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Vip"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete VIP by ID",
+                "tags": [
+                    "VIP"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Vip Deleted"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Vip Not Found"
+                    }
+                }
+            }
+        },
+        "/vips/isvip/{id}": {
+            "get": {
+                "summary": "Check if user is VIP",
+                "tags": [
+                    "VIP"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/vips/add": {
+            "post": {
+                "summary": "Add VIP",
+                "tags": [
+                    "VIP"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "user_id": {
+                                        "type": "number",
+                                        "example": 1
+                                    },
+                                    "business_address": {
+                                        "type": "string",
+                                        "example": "Example Business Address"
+                                    },
+                                    "city": {
+                                        "type": "string",
+                                        "example": "Example City"
+                                    },
+                                    "state": {
+                                        "type": "string",
+                                        "example": "Example State"
+                                    },
+                                    "zip_code": {
+                                        "type": "string",
+                                        "example": "12345"
+                                    },
+                                    "nonce": {
+                                        "type": "string",
+                                        "example": "Example Nonce"
+                                    },
+                                    "expiry_date": {
+                                        "type": "string",
+                                        "example": "2021-07-07 09:00:00"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Vip Created"
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "vip": {
+                                                    "$ref": "#/components/schemas/Vip"
+                                                },
+                                                "transaction": {
+                                                    "$ref": "#/components/schemas/SquareTransaction"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "BearerAuth": {
+                "type": "http",
+                "scheme": "bearer"
+            }
+        },
+        "schemas": {
+            "Vip": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number",
+                        "example": 1
+                    },
+                    "user_id": {
+                        "type": "number",
+                        "example": 1
+                    },
+                    "expiry_date": {
+                        "type": "string",
+                        "example": "2021-07-07 09:00:00"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "example": "2021-07-07 09:00:00"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "example": "2021-07-07 09:00:00"
+                    }
+                }
+            },
+            "SquareTransaction": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number",
+                        "example": 1
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "success"
+                    },
+                    "amount": {
+                        "type": "number",
+                        "example": 100
+                    },
+                    "currency": {
+                        "type": "string",
+                        "example": "USD"
+                    },
+                    "customer_id": {
+                        "type": "number",
+                        "example": 1
+                    },
+                    "payment_service_id": {
+                        "type": "number",
+                        "example": 1
+                    },
+                    "payment_service_type": {
+                        "type": "string",
+                        "example": "square"
+                    },
+                    "merchant_id": {
+                        "type": "string",
+                        "example": "merchant_id"
+                    },
+                    "order_id": {
+                        "type": "string",
+                        "example": "order_id"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "example": "2021-07-07 09:00:00"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "example": "2021-07-07 09:00:00"
+                    }
+                }
+            }
+        }
+    }
+}

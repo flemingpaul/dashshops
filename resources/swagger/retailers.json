@@ -1,0 +1,1420 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Dashshops Webportal API",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "/api",
+            "description": "Base URL"
+        }
+    ],
+    "paths": {
+        "/retailers/add": {
+            "post": {
+                "summary": "Add a retailer",
+                "tags": [
+                    "Retailer"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "business_name": {
+                                        "type": "string",
+                                        "example": "Example Corp"
+                                    },
+                                    "business_address": {
+                                        "type": "string",
+                                        "example": "123, Example Street, Example City"
+                                    },
+                                    "business_description": {
+                                        "type": "string",
+                                        "example": "Example Description"
+                                    },
+                                    "firstname": {
+                                        "type": "string",
+                                        "example": "John"
+                                    },
+                                    "lastname": {
+                                        "type": "string",
+                                        "example": "Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "john@doe.com"
+                                    },
+                                    "phone_number": {
+                                        "type": "string",
+                                        "example": "+2348010203040"
+                                    },
+                                    "type_of_business": {
+                                        "type": "number",
+                                        "example": 7
+                                    },
+                                    "city": {
+                                        "type": "string",
+                                        "example": "Example City"
+                                    },
+                                    "state": {
+                                        "type": "string",
+                                        "example": "Example State"
+                                    },
+                                    "zip_code": {
+                                        "type": "string",
+                                        "example": "12345"
+                                    },
+                                    "web_url": {
+                                        "type": "string",
+                                        "example": "https://example.com"
+                                    },
+                                    "business_hours_open": {
+                                        "type": "string",
+                                        "example": "Monday-Friday:11am-11pm"
+                                    },
+                                    "business_hours_close": {
+                                        "type": "string",
+                                        "example": "Saturday-Sunday:9am-6pm"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Retailer Created"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Retailer"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/retailers/analytics/summary/{retail_id}": {
+            "get": {
+                "summary": "Get retailer analytics summary",
+                "tags": [
+                    "Retailer"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "retail_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "clicks": {
+                                                    "type": "number",
+                                                    "example": 1
+                                                },
+                                                "downloads": {
+                                                    "type": "number",
+                                                    "example": 1
+                                                },
+                                                "redeems": {
+                                                    "type": "number",
+                                                    "example": 1
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/retailers/{id}": {
+            "put": {
+                "summary": "Update a retailer",
+                "tags": [
+                    "Retailer"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "business_name": {
+                                        "type": "string",
+                                        "example": "Example Corp"
+                                    },
+                                    "business_address": {
+                                        "type": "string",
+                                        "example": "123, Example Street, Example City"
+                                    },
+                                    "business_description": {
+                                        "type": "string",
+                                        "example": "Example Description"
+                                    },
+                                    "firstname": {
+                                        "type": "string",
+                                        "example": "John"
+                                    },
+                                    "lastname": {
+                                        "type": "string",
+                                        "example": "Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "john@doe.com"
+                                    },
+                                    "phone_number": {
+                                        "type": "string",
+                                        "example": "+2348010203040"
+                                    },
+                                    "type_of_business": {
+                                        "type": "number",
+                                        "example": 7
+                                    },
+                                    "city": {
+                                        "type": "string",
+                                        "example": "Example City"
+                                    },
+                                    "state": {
+                                        "type": "string",
+                                        "example": "Example State"
+                                    },
+                                    "island": {
+                                        "type": "string",
+                                        "example": "Example Island"
+                                    },
+                                    "zip_code": {
+                                        "type": "string",
+                                        "example": "12345"
+                                    },
+                                    "web_url": {
+                                        "type": "string",
+                                        "example": "https://example.com"
+                                    },
+                                    "business_hours_open": {
+                                        "type": "string",
+                                        "example": "Monday-Friday:11am-11pm"
+                                    },
+                                    "business_hours_close": {
+                                        "type": "string",
+                                        "example": "Saturday-Sunday:9am-6pm"
+                                    },
+                                    "latitude": {
+                                        "type": "number",
+                                        "example": 37.7749
+                                    },
+                                    "longitude": {
+                                        "type": "number",
+                                        "example": -122.4194
+                                    },
+                                    "approval_status": {
+                                        "type": "string",
+                                        "example": "New"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Retailer Updated"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Retailer"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Retailer not found"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete a retailer",
+                "tags": [
+                    "Retailer"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Retailer Deleted"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Retailer not found"
+                    }
+                }
+
+            }
+        },
+        "/retailers/update-banner": {
+            "post": {
+                "summary": "Update a retailer banner",
+                "tags": [
+                    "Retailer"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "number",
+                                        "example": 1
+                                    },
+                                    "banner_image": {
+                                        "type": "file"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Retailer Banner Updated"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "Image Name"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Retailer not found"
+                    }
+                }
+            }
+        },
+        "/retailers/getall/{count}/{page}/{category}/{search}": {
+            "get": {
+                "summary": "Get all retailers",
+                "tags": [
+                    "Retailer"
+                ],
+                "parameters": [
+                    {
+                        "name": "count",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "category",
+                        "in": "path",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Retailer"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+        },
+        "/retailers//getallbylocation/{count}/{page}/{category}/{city}/{state}/{search}": {
+            "get": {
+                "summary": "Get all retailers by location",
+                "tags": [
+                    "Retailer"
+                ],
+                "parameters": [
+                    {
+                        "name": "count",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "category",
+                        "in": "path",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "city",
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "state",
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Retailer"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+        },
+        "/retailers//getallbylocationIsland/{count}/{page}/{category}/{island}/{city}/{state}/{search}": {
+            "get": {
+                "summary": "Get all retailers by island",
+                "tags": [
+                    "Retailer"
+                ],
+                "parameters": [
+                    {
+                        "name": "count",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "category",
+                        "in": "path",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "island",
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "city",
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "state",
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Retailer"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+        },
+        "/retailers/popular/{count}/{page}/{category}/{city}/{state}/{search}": {
+            "get": {
+                "summary": "Get popular retailers",
+                "tags": [
+                    "Retailer"
+                ],
+                "parameters": [
+                    {
+                        "name": "count",
+                        "in": "path",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "category",
+                        "in": "path",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "city",
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "state",
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Retailer"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+        },
+        "/retailers/popularbyisland/{count}/{page}/{category}/{island}/{city}/{state}/{search}": {
+            "get": {
+                "summary": "Get popular retailers by island",
+                "tags": [
+                    "Retailer"
+                ],
+                "parameters": [
+                    {
+                        "name": "count",
+                        "in": "path",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "category",
+                        "in": "path",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "island",
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "city",
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "state",
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Retailer"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+        },
+        "/retailers/single/{id}": {
+            "get": {
+                "summary": "Get a retailer",
+                "tags": [
+                    "Retailer"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Retailer Found"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Retailer"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/retailers/coupons/{id}/{type}/{search}": {
+            "get": {
+                "summary": "Get retailer coupons",
+                "tags": [
+                    "Retailer"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "type",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Coupon"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/retailers/products/{id}/{type}/{search}": {
+            "get": {
+                "summary": "Get retailer products",
+                "tags": [
+                    "Retailer"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "type",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Product"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/retailers/getcities/{island}": {
+            "get": {
+                "summary": "Get cities by island",
+                "tags": [
+                    "Retailer"
+                ],
+                "parameters": [
+                    {
+                        "name": "island",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Cities Retrieved"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "example": "Example City"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/retailers/getislandfrcity/{city}": {
+            "get": {
+                "summary": "Get island by city",
+                "tags": [
+                    "Retailer"
+                ],
+                "parameters": [
+                    {
+                        "name": "city",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Island Retrieved"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "Example Island"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/retailers/getavailablestates": {
+            "get": {
+                "summary": "Get available states",
+                "tags": [
+                    "Retailer"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "example": "Example State"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "BearerAuth": {
+                "type": "http",
+                "scheme": "bearer"
+            }
+        },
+        "schemas": {
+            "Retailer": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number",
+                        "example": 1
+                    },
+                    "business_name": {
+                        "type": "string",
+                        "example": "Example Corp"
+                    },
+                    "business_address": {
+                        "type": "string",
+                        "example": "123, Example Street, Example City"
+                    },
+                    "business_description": {
+                        "type": "string",
+                        "example": "Example Description"
+                    },
+                    "firstname": {
+                        "type": "string",
+                        "example": "John"
+                    },
+                    "lastname": {
+                        "type": "string",
+                        "example": "Doe"
+                    },
+                    "phone_number": {
+                        "type": "string",
+                        "example": "+2348010203040"
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "example@example.com"
+                    },
+                    "type_of_business": {
+                        "type": "number",
+                        "example": 7
+                    },
+                    "business_hours_open": {
+                        "type": "string",
+                        "example": "Monday-Friday:11am-11pm"
+                    },
+                    "business_hours_close": {
+                        "type": "string",
+                        "example": "Saturday-Sunday:9am-6pm"
+                    },
+                    "banner_image": {
+                        "example": "blob"
+                    },
+                    "city": {
+                        "type": "string",
+                        "example": "Example City"
+                    },
+                    "state": {
+                        "type": "string",
+                        "example": "Example State"
+                    },
+                    "zip_code": {
+                        "type": "string",
+                        "example": "12345"
+                    },
+                    "island": {
+                        "type": "string",
+                        "example": null
+                    },
+                    "web_url": {
+                        "type": "string",
+                        "example": "https://example.com"
+                    },
+                    "approval_status": {
+                        "type": "string",
+                        "example": "Approved"
+                    },
+                    "latitude": {
+                        "type": "number",
+                        "example": 37.7749
+                    },
+                    "longitude": {
+                        "type": "number",
+                        "example": -122.4194
+                    },
+                    "from_mobile": {
+                        "type": "number",
+                        "example": 1
+                    },
+                    "created_by": {
+                        "type": "number",
+                        "example": 1
+                    },
+                    "modified_by": {
+                        "type": "number",
+                        "example": 1
+                    }
+                }
+            },
+            "Coupon": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number",
+                        "example": 1
+                    },
+                    "image": {
+                        "type": "file"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "price": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "category_id": {
+                        "type": "number"
+                    },
+                    "download_limit": {
+                        "type": "number"
+                    },
+                    "retailer_id": {
+                        "type": "number"
+                    },
+                    "retail_price": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "discount_now_price": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "discount_percentage": {
+                        "type": "string"
+                    },
+                    "start_date": {
+                        "type": "string"
+                    },
+                    "end_date": {
+                        "type": "string"
+                    },
+                    "qr_code": {
+                        "type": "string"
+                    },
+                    "discount_description": {
+                        "type": "string"
+                    },
+                    "discount_code": {
+                        "type": "string"
+                    },
+                    "offer_type": {
+                        "type": "string"
+                    },
+                    "approval_status": {
+                        "type": "string",
+                        "example": "NEW"
+                    },
+                    "created_by": {
+                        "type": "number"
+                    },
+                    "modified_by": {
+                        "type": "number"
+                    },
+                    "created_at": {
+                        "type": "string"
+                    },
+                    "updated_at": {
+                        "type": "string"
+                    }
+                }
+            },
+            "CouponRedeemed": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number",
+                        "example": 1
+                    },
+                    "coupon_id": {
+                        "type": "number"
+                    },
+                    "coupon_download_id": {
+                        "type": "number"
+                    },
+                    "redemption_code": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": "string"
+                    },
+                    "updated_at": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Click": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number",
+                        "example": 1
+                    },
+                    "coupon_id": {
+                        "type": "number"
+                    },
+                    "clicks": {
+                        "type": "number"
+                    },
+                    "city": {
+                        "type": "string"
+                    },
+                    "state": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": "string"
+                    },
+                    "updated_at": {
+                        "type": "string"
+                    }
+                }
+            },
+            "CouponDownload": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number",
+                        "example": 1
+                    },
+                    "coupon_id": {
+                        "type": "number"
+                    },
+                    "downloads": {
+                        "type": "number"
+                    },
+                    "coupon_code": {
+                        "type": "string"
+                    },
+                    "user_id": {
+                        "type": "number"
+                    },
+                    "created_at": {
+                        "type": "string"
+                    },
+                    "updated_at": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Product": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number",
+                        "example": null
+                    },
+                    "product_name": {
+                        "type": "string",
+                        "example": null
+                    },
+                    "alias": {
+                        "type": "string",
+                        "example": null
+                    },
+                    "image": {
+                        "type": "string",
+                        "example": null
+                    },
+                    "images": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "example": null
+                    },
+                    "store_id": {
+                        "type": "number",
+                        "example": null
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": null
+                    },
+                    "overview": {
+                        "type": "string",
+                        "example": null
+                    },
+                    "tags": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "example": null
+                    },
+                    "waranty": {
+                        "type": "string",
+                        "example": null
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": null
+                    },
+                    "category_id": {
+                        "type": "number",
+                        "example": null
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": null
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": null
+                    },
+                    "min_price": {
+                        "type": "number",
+                        "example": null
+                    },
+                    "max_price": {
+                        "type": "number",
+                        "example": null
+                    },
+                    "min_sale_price": {
+                        "type": "number",
+                        "example": null
+                    },
+                    "max_sale_price": {
+                        "type": "number",
+                        "example": null
+                    },
+                    "product_is_on_sale": {
+                        "type": "boolean",
+                        "example": null
+                    },
+                    "favorite": {
+                        "type": "boolean",
+                        "example": null
+                    },
+                    "business_name": {
+                        "type": "string",
+                        "example": null
+                    },
+                    "banner_image": {
+                        "type": "string",
+                        "example": null
+                    },
+                    "business_address": {
+                        "type": "string",
+                        "example": null
+                    },
+                    "city": {
+                        "type": "string",
+                        "example": null
+                    },
+                    "state": {
+                        "type": "string",
+                        "example": null
+                    },
+                    "phone_number": {
+                        "type": "string",
+                        "example": null
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": null
+                    },
+                    "business_description": {
+                        "type": "string",
+                        "example": null
+                    },
+                    "longitude": {
+                        "type": "number",
+                        "example": null
+                    },
+                    "latitude": {
+                        "type": "number",
+                        "example": null
+                    },
+                    "from_mobile": {
+                        "type": "boolean",
+                        "example": null
+                    },
+                    "category_name": {
+                        "type": "string",
+                        "example": null
+                    }
+                }
+            }
+        }
+    }
+}
