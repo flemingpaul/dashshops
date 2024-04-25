@@ -1,6 +1,12 @@
 @php use Carbon\Carbon; @endphp
 @extends('dashboard')
 
+
+@section('extra_css')
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+</style>
+@endsection
+
 @section('content')
 <main>
 
@@ -75,50 +81,58 @@
 
                     <div class="card-body">
 
-                        <form action="{{route('coupons')}}">
-                            <div class="row">
-                                <div class="col-3">
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">Search</label>
-                                        <input type="text" name="search" value="{{$search}}" class="form-control" id="txtSearch" placeholder="Search Products">
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <div class="form-group">
-                                        <label for="exampleFormControlSelect1">Category</label>
-                                        <select class="form-control" id="selectCategory" name="category">
-                                            <option value="0" @if($category=='All' ) selected @endif>All</option>
-                                            @foreach($categories as $cat)
-                                            <option value="{{$cat->id}}" @if($category==$cat->id) selected @endif>{{$cat->name}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <?php
-
-                                $approvalStatus =  [
-                                    "New",
-                                    "Approved",
-                                    "Denied",
-                                ];
-                                ?>
-                                <div class="col-2">
-                                    <div class="form-group">
-                                        <label for="exampleFormControlSelect1">Status</label>
-                                        <select class="form-control" id="exampleFormControlSelect1" name="type">
-                                            <option value="all" @if($type=="All" ) selected @endif>All</option>
-                                            @foreach($approvalStatus as $offer)
-                                            <option value="{{$offer}}" @if($type==$offer) selected @endif>{{$offer}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="col-2">
-                                    <button type="submit" class="btn btn-primary mt-4">Search</button>
+                        <div class="row">
+                            
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label for="exampleFormControlSelect1">Retailers</label>
+                                    <select class="form-control" id="selectRetailer" name="category">
+                                        <option value="0">All</option>
+                                        @foreach($retailers as $retailer)
+                                        <option value="{{$retailer->id}}">{{$retailer->business_name}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
-                        </form>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label for="exampleFormControlSelect1">Category</label>
+                                    <select class="form-control" id="selectCategory" name="category">
+                                        <option value="0">All</option>
+                                        @foreach($categories as $cat)
+                                        <option value="{{$cat->id}}">{{$cat->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <?php
+
+                            $approvalStatus =  [
+                                ['name' => "New", 'value' => -1],
+                                [
+                                    'name' => "Approved", 'value' => 1
+                                ],
+                                [
+                                    'name' => "Denied", 'value' => 0
+                                ],
+                            ];
+                            ?>
+                            <div class="col-2">
+                                <div class="form-group">
+                                    <label for="cmbStatus">Status</label>
+                                    <select class="form-control" id="cmbStatus" name="type">
+                                        <option value="all" @if($type=="All" ) selected @endif>All</option>
+                                        @foreach($approvalStatus as $offer)
+                                        <option value="{{$offer['value']}}" @if($type==$offer['value']) selected @endif>{{$offer['name']}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-2">
+                                <button type="button" onclick="hSearch()" class=" btn btn-primary mt-4">Search</button>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
@@ -133,6 +147,10 @@
                             {{ session('message') }}
                         </div>
                         @endif
+
+                        <div id="divTableProducts">
+
+                        </div>
 
 
 
@@ -155,5 +173,8 @@
         window.location.replace(url);
     }
 </script>
-<script src="{{asset('assets/admin/assets/js/app/products-view.js?'.time())}}"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap4.min.js"></script>
+<script src="{{asset('js/choices.min.js?'.time())}}"></script>
+<script src="{{asset('js/products-view.js?'.time())}}"></script>
 @endsection

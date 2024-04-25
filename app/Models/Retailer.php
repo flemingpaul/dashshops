@@ -37,6 +37,9 @@ class Retailer extends Authenticatable
         'created_by',
         'modified_by'
     ];
+    protected $hidden = [
+        'password',
+    ];
 
     public function category(): HasOne {
         return $this->hasOne(Category::class, 'id', 'type_of_business');

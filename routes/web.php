@@ -55,6 +55,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/coupons', [CouponController::class, 'showAll'])->name('coupons');
     Route::get('/coupons/{id}', [CouponController::class, 'destroy'])->name('admin.coupons.delete');
     Route::get('/products', [ProductController::class, 'showAll'])->name('products');
+    Route::get('/products/search', [ProductController::class, 'search'])->name('product-search');
 
 
 
