@@ -7,6 +7,7 @@ use App\Models\Cart;
 use App\Models\Rating;
 use App\Models\CouponClicks;
 use App\Models\Product;
+use App\Models\Retailer;
 use App\Models\ProductVariant;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
@@ -335,46 +336,57 @@ class ProductController extends Controller
         $type = $request->has('type') ? $request->get('type') : "all";
         $offertype = $request->has('offer_type') ? $request->get('offer_type') : "all";
         $search = $request->has('search') ? $request->get('search') : "";
-        $coupons = DB::table('coupons')
-        ->join('retailers', 'retailers.id', '=', 'coupons.retailer_id')
-        ->join('users', 'users.retailer_id', '=', 'retailers.id')
-        ->join('categories', 'categories.id', '=', 'coupons.category_id')
-        ->select('coupons.*', 'users.firstname', 'retailers.business_name', 'retailers.banner_image', 'retailers.business_address', 'retailers.city', 'retailers.state', 'retailers.phone_number', 'retailers.email', 'retailers.business_description', 'retailers.zip_code', 'retailers.island', 'retailers.longitude', 'retailers.from_mobile', 'retailers.latitude', 'categories.name as category_name');
-        if ($category != "0") {
-            $coupons = $coupons->where('coupons.category_id', '=', $category);
-        }
+        $retailers = Retailer::where('approval_status', "Approved");
+      
         if (Auth::user()->admin == 2) {
-            $coupons = $coupons->where('retailers.created_by', '=', Auth::user()->id);
+            $retailers = $retailers->where('created_by', '=', Auth::user()->id);
         }
-        if ($type != "all") {
-            if ($type != "expired") {
-                $coupons = $coupons->where('coupons.approval_status', '=', $type);
-            } else {
-                $coupons = $coupons->where('coupons.end_date', '<', date('Y-m-d 23:59:59'));
-            }
-        }
-        if ($offertype != "all") {
-            $coupons = $coupons->where('coupons.offer_type', '=', $offertype);
-        }
-
-        $coupons = $coupons->where('retailers.approval_status', 'Approved');
-        if ($search != "") {
-            $coupons = $coupons->whereNested(function ($q) use ($search) {
-                $q->where('coupons.name', 'LIKE', '%' . $search . '%')
-                    ->orWhere('retailers.city', 'LIKE', '%' . $search . '%')
-                    ->orWhere('retailers.island', 'LIKE', '%' . $search . '%')
-                    ->orWhere('retailers.business_name', 'LIKE', '%' . $search . '%')
-                    ->orWhere('retailers.state', 'LIKE', '%' . $search . '%')
-                    ->orWhere('retailers.zip_code', 'LIKE', '%' . $search . '%')
-                    ->orWhere('coupons.discount_description', 'LIKE', '%' . $search . '%');
-            });
-        }
-        $coupons = $coupons->paginate(30, ['*'], 'page', $page);
+        $retailers  = $retailers->get();
         //
         $categories = Category::all();
         $total_downloads = $this->getTotalDownloads(); // CouponDownloads::sum('Downloads');
         $total_clicks = $this->getTotalClicks(); //CouponClicks::sum('clicks');
         $total_redemptions = $this->getTotalRedemptions(); // CouponRedeemed::count();
-        return view('pages.products', compact(['coupons', 'category', 'type', 'offertype', 'search', 'categories', 'total_downloads', 'total_clicks', 'total_redemptions']));
+        return view('pages.products', compact(['retailers', 'category', 'type', 'offertype', 'search', 'categories', 'total_downloads', 'total_clicks', 'total_redemptions']));
+    }
+
+    function search(Request $request){
+        $category = $request->get('category_id');
+        $retailer_id = $request->has("retailer_id")?$request->get('retailer_id'):"0";
+        $search = $request->get('search');
+        $status = $request->get('status');
+        $products = DB::table('product_variation')
+        ->join('products', 'products.id', '=', 'product_variation.product_id')
+        ->join('retailers', 'retailers.id', '=', 'products.store_id')
+        ->join('categories', 'categories.id', '=', 'products.category_id')
+        ->select($this->getSelectDBRawProducts());
+        if ((int)$category != 0) {
+            $products = $products->where('products.category_id', '=', $category);
+        }
+        if ((int)$retailer_id != 0) {
+            $products = $products->where('products.store_id', '=',(int)$retailer_id);
+        }
+    
+
+        if ($search != "") {
+            $products = $products->whereNested(function ($q) use ($search) {
+                $q->orWhere('products.product_name', 'LIKE', '%' . $search . '%')
+                    ->orWhere('retailers.city', 'LIKE', '%' . $search . '%')
+                    ->orWhere('retailers.state', 'LIKE', '%' . $search . '%')
+                    ->orWhere('retailers.zip_code', 'LIKE', '%' . $search . '%')
+                    ->orWhere('product_variation.variant_type_values', 'LIKE', '%' . $search . '%')
+                    ->orWhere('products.description', 'LIKE', '%' . $search . '%')
+                    ->orWhere('products.overview', 'LIKE', '%' . $search . '%');
+            });
+        }
+        if($status != "all"){
+            $products = $products->where('products.status', (int)$status);
+            $products = $products->where('product_variation.status', (int)$status);
+        }
+        $products = $products->groupBy("products.id");
+        $products = $products->get();
+        //echo json_encode($products);die();
+        $view = view('pages.products-table',["products"=>$products]);
+        return $view;
     }
 }

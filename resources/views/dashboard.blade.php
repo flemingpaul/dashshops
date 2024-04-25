@@ -185,6 +185,7 @@
             </div>
         </div>
     </footer>
+    <script src="{{asset('js/functions.js?'.time())}}"></script>
     @yield('extra_js')
 </body>
 

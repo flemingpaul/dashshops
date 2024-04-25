@@ -70,6 +70,7 @@ class CartController extends Controller
 
     function getProductDetails(Request $request){
         $products_variant_ids = json_decode($request->products_variant_ids, true);
+        //$products_variant_ids = json_decode("[1,2,4]", true);
         $products = $this->getProductDetail($products_variant_ids);
         return response()->json(
             [
@@ -114,7 +115,7 @@ class CartController extends Controller
             ->join('products', 'products.id', '=', 'product_variation.product_id')
             ->join('retailers', 'retailers.id', '=', 'products.store_id')
             ->join('categories', 'categories.id', '=', 'products.category_id')
-            ->select($this->getSelectDBRawCart())
+            ->select($this->getSelectDBRawCartDisplay())
             ->where('cart.user_id', '=', $user->id)
             ->where('products.status','=',1)
             ->where('product_variation.status','=',1);

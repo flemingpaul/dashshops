@@ -86,8 +86,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     //Ratings
     Route::get('/ratings/{approval_status}', [RatingsController::class, 'getAll']);
-    Route::get('/ratings/retailer/{retailer_id}', [RatingsController::class, 'getRetailerRatings']);
-    Route::get('/ratings/retailersummary/{retailer_id}', [RatingsController::class, 'getRetailerRatingSummary']);
     Route::post('/ratings/update', [RatingsController::class, 'update']);
     Route::delete('/ratings/{id}', [RatingsController::class, 'destroy']);
 
@@ -172,7 +170,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/app-settings/{user_id}', [AppSettingsController::class, 'saveSettings']);
 });
 
-Route::get('/carts/products-from-vids', [ProductController::class, 'getProductDetails']);
+Route::post('/carts/products-from-vids', [CartController::class, 'getProductDetails']);
 
 Route::get('/categories', [CategoryController::class, 'index']);
 Route::get('/categories/{id}', [CategoryController::class, 'show']);
@@ -189,6 +187,10 @@ Route::group(['prefix' => '/products', 'as' => 'products'], function () {
     Route::get('/getrelevantproducts/{count}/{category?}/{search?}', [ProductController::class, 'getrelevantproducts']);
     Route::get('/getrelevantproductsbylocation/{count}/{category?}/{city?}/{state?}/{search?}', [ProductController::class, 'getrelevantproducts2']);
 });
+
+//ratings
+Route::get('/ratings/retailer/{retailer_id}', [RatingsController::class, 'getRetailerRatings']);
+Route::get('/ratings/retailersummary/{retailer_id}', [RatingsController::class, 'getRetailerRatingSummary']);
 
 
 //Retailers

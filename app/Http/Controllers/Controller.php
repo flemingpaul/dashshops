@@ -43,6 +43,22 @@ class Controller extends BaseController
         $str = 'products.*, 
         (select min(product_variation.price) where product_variation.product_id = products.id) as min_price,
         (select max(product_variation.price) where product_variation.product_id = products.id) as max_price, 
+        (select count(id) from product_variation where product_id=products.id) as total_variants,
+        (select sum(quantity) from product_variation where product_id=products.id) as total_quantity,
+        (select min(product_variation.sale_price) where product_variation.product_id = products.id) as min_sale_price,
+        (select max(product_variation.sale_price) where product_variation.product_id = products.id) as max_sale_price, 
+        (select max(product_variation.on_sale) where product_variation.product_id = products.id and product_variation.status = 1) as product_is_on_sale, 
+        (select id from product_favorites where product_favorites.product_variation_id=product_variation.id and product_favorites.user_id=" . $userid . " limit 0,1) as favorite, 
+        retailers.business_name,retailers.banner_image,retailers.business_address, retailers.city, retailers.state, retailers.phone_number, retailers.email,retailers.business_description,
+        retailers.longitude,retailers.latitude, retailers.from_mobile, retailers.from_mobile, categories.name as category_name';
+        return DB::raw($str);
+    }
+
+    function getSelectDBRawCartDisplay()
+    {
+        $str = 'products.*,product_variation.id as product_variation_id, product_variation.price,product_variation.sale_price,product_variation.on_sale,product_variation.quantity as product_quantity,product_variation.low_stock_value, product_variation.status,
+        (select min(product_variation.price) where product_variation.product_id = products.id) as min_price,
+        (select max(product_variation.price) where product_variation.product_id = products.id) as max_price, 
         (select min(product_variation.sale_price) where product_variation.product_id = products.id) as min_sale_price,
         (select max(product_variation.sale_price) where product_variation.product_id = products.id) as max_sale_price, 
         (select max(product_variation.on_sale) where product_variation.product_id = products.id and product_variation.status = 1) as product_is_on_sale, 
@@ -86,15 +102,17 @@ class Controller extends BaseController
         ->join('products', 'products.id', '=', 'product_variation.product_id')
         ->join('retailers', 'retailers.id', '=', 'products.store_id')
         ->join('categories', 'categories.id', '=', 'products.category_id')
-        ->select($this->getSelectDBRawProducts())
+        ->select($this->getSelectDBRawCartDisplay())
             ->where('products.status', '=', 1)
             ->where('product_variation.status', '=', 1);
 
         $products = $products->whereNested(function ($q) use ($productVariationIds) {
             foreach ($productVariationIds as $id) {
-                $q = $q->orWhere("cart.product_variation_id", $id);
+                $q = $q->orWhere("product_variation.id", $id);
             }
         });
+        $products = $products->groupBy(
+            "product_variation.id");
         $products = $products->orderBy("products.product_name");
         $products = $products->get();
 

@@ -1,21 +1,23 @@
-function Init() {
-    if (document.getElementById('selectStore')) {
-        var tags = document.getElementById('selectStore');
-        new Choices(tags, { shouldSort: false });
+$(document).ready(function () {
+    if (document.getElementById("selectRetailer")) {
+      var tags = document.getElementById("selectRetailer");
+      new Choices(tags, { shouldSort: false });
     }
     if (document.getElementById('selectCategory')) {
         var tags = document.getElementById('selectCategory');
         new Choices(tags, { shouldSort: false });
     }
     hSearch();
-}
+});
 
 function hSearch() {
     var url = "";
-    url = get_base_url('sellers/productsearch?category_id=' + $("#selectCategory").val() + "&store_id=" + $("#selectStore").val());
+    url = get_base_url(
+      `products/search?category_id=${$("#selectCategory").val()}&retailer_id=${$("#selectRetailer").val()}&status=${$("#cmbStatus").val()}`
+    );
 
     console.log(url);
-    $("#divTableProducts").html('<div style="width:180px;height:180px;">' + spinner + "please wait...</div>");
+    $("#divTableProducts").html('<div style="width:180px;height:180px;">please wait...</div>');
     getData2(url, 'divTableProducts', enableVTable);
 
 }
@@ -23,7 +25,7 @@ function hSearch() {
 function enableVTable() {
 
     if (document.getElementById('products-list')) {
-        const dataTableSearch = new simpleDatatables.DataTable("#products-list", {
+        const dataTableSearch = new DataTable("#products-list", {
             searchable: true,
             fixedHeight: false,
             perPage: 25

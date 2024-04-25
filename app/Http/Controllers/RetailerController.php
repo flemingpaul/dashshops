@@ -687,7 +687,12 @@ class RetailerController extends Controller
     public function show($id): JsonResponse
     {
         if (Retailer::where('id', $id)->exists()) {
-            $retailer = Retailer::find($id);
+            //$retailer = Retailer::find($id);
+            $retailer = DB::table('retailers')
+            ->join('categories', 'categories.id', '=', 'retailers.type_of_business')
+                ->select("retailers.*","categories.name as category_name")
+                ->where("retailers.id",$id)
+                ->first();
             return response()->json([
                 "message" => "Retailer Found",
                 "data" => $retailer
